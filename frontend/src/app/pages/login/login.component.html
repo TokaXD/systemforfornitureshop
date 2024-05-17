@@ -1,0 +1,53 @@
+<div class="box">
+    <div class="img">
+        <img [src]="imageSrc" alt="Login Image">
+    </div>
+    <div class="container">
+        <form>
+
+
+            <!-- Campo de Nome -->
+            <mat-form-field appearance="outline">
+                <mat-label class="mat-label-properties">
+                    Nome Completo
+                </mat-label>
+                <input matInput class="mat-input-properties" name="FullName" [formControl]="name"
+                    (blur)="updateNameErrorMessage()" required>
+                @if (name.invalid){
+                <mat-error>
+                    {{nameErrorMessage}}
+                </mat-error>
+                }
+                <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+
+            <!-- Campo de email -->
+            <mat-form-field appearance="outline">
+                <mat-label class="mat-label-properties">
+                    Entre Com Seu E-mail
+                </mat-label>
+                <input matInput placeholder="exemple@example.com" [formControl]="email" class="mat-input-properties"
+                    name="Email" (blur)="updateEmailErrorMessage()" required>
+                @if (email.invalid){
+                <mat-error>
+                    {{emailErrorMessage}}
+                </mat-error>
+                }
+                <mat-icon matSuffix>mail</mat-icon>
+            </mat-form-field>
+
+            <!-- Campo de Senha -->
+            <mat-form-field appearance="outline">
+                <mat-label class="mat-label-properties">
+                    Senha
+                </mat-label>
+                <input matInput class="mat-input-properties" [type]=" hide ? 'password' : 'text' ">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon matSuffix>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
+
+            </mat-form-field>
+
+        </form>
+    </div>
+</div>
