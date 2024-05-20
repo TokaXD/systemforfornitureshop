@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
 import { MatLine } from '@angular/material/core';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {merge} from 'rxjs';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormControl, Validators, FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import {MatRadioModule} from '@angular/material/radio';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     MatLine, 
     MatInputModule, 
     MatFormFieldModule, 
@@ -20,46 +22,69 @@ import {MatButtonModule} from '@angular/material/button';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    NgxMaskDirective,
+    MatRadioModule,
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  providers: [
+    provideNgxMask(),
+  ]
 })
 export class LoginComponent {
+  
+  //Define true para liberar a senha ou ocultar a senha
   hide = true
 
-  email = new FormControl('', [Validators.required, Validators.email]);
+  form = new FormGroup({
+  //Area para criar relacao entre os forms e o html
+    email: new FormControl('', [Validators.required, Validators.email]),
 
-  name = new FormControl('', [Validators.required])
+    name: new FormControl('', [Validators.required]),
 
+    cellphone: new FormControl('', [Validators.required]),
+
+    document: new FormControl('', [Validators.required]),
+
+    gender: new FormControl('')
+  })
+
+
+  //Area para criar os erros de mensagens
   emailErrorMessage = '';
   nameErrorMessage = '';
-  imageSrc = 'assets/Tablet_login.gif';
+  cellphoneErrorMessage = '';
+  documentErrorMessage = '';
 
-  private imageUpdateInterval: any;
 
-  ngOnInit(): void {
-    this.startImageUpdate();
-  }
 
-  ngOnDestroy(): void {
-    clearInterval(this.imageUpdateInterval);
-  }
-
+  //Area do constructor para acinar os validators caso tenha alguma interação com os filds
   constructor() {
-    merge(this.email.statusChanges, this.email.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateEmailErrorMessage());
+    this.form.valueChanges.subscribe(()=>{
+      this.updateCellphoneErrorMessage();
+      this.updateEmailErrorMessage();
+      this.updateNameErrorMessage();
+      this.updatedocumentErrorMessage();
+    })
+  }
 
-    merge(this.name.statusChanges, this.email.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateNameErrorMessage())
+  onSubmit() {
+    if (this.form.valid) {
+      console.log('Formulário válido, enviar dados:', this.form.value);
+      // Aqui você pode adicionar sua lógica para enviar os dados para o servidor
+    } else {
+      console.log('Formulário inválido, verificar erros.');
+      this.form.markAllAsTouched();  // Isso fará com que todas as mensagens de erro sejam mostradas
+    }
   }
 
 
+  //area para criar as mensagens de erro da tela de login 
   updateEmailErrorMessage(){
-    if(this.email.hasError('required')){
+    const email = this.form.get('email');
+    if(email?.errors?.['required']){
       this.emailErrorMessage = 'Este Campo Precisa De Um Valor'
-    } else if(this.email.hasError('email')){
+    } else if(email?.errors?.['email']){
       this.emailErrorMessage = 'Email Não é Valido';
     } else {
       this.emailErrorMessage = '';
@@ -67,26 +92,30 @@ export class LoginComponent {
   }
 
   updateNameErrorMessage() {
-    if (this.name.hasError('required')) {
+    const name = this.form.get('name');
+    if (name?.errors?.['required']) {
       this.nameErrorMessage = 'Este Campo Precisa De Um Valor';
     } else {
       this.nameErrorMessage = '';
     }
   }
 
-
-  startImageUpdate() {
-    this.imageUpdateInterval = setInterval(() => {
-      this.updateImage();
-    }, 20000); // 20000 ms = 20 seconds
+  updateCellphoneErrorMessage() {
+    const cellphone = this.form.get('cellphone')
+    if (cellphone?.errors?.['required']) {
+      this.cellphoneErrorMessage = 'Numero De Telefone Necessario';
+    } else {
+      this.cellphoneErrorMessage = '';
+    }
   }
 
-  updateImage() {
-    // Suponha que você tenha várias imagens para alternar
-    const images = ['assets/Tablet_login.gif'];
-    const currentIndex = images.indexOf(this.imageSrc);
-    const nextIndex = (currentIndex + 1) % images.length;
-    this.imageSrc = images[nextIndex];
+  updatedocumentErrorMessage() {
+    const document = this.form.get('document')
+    if (document?.errors?.['required']){
+      this.documentErrorMessage = 'Numero do Documento Necessario CPF/CNPJ';
+    } else {
+      this.documentErrorMessage = '';    
+    }
   }
 
 }

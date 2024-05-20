@@ -1,38 +1,36 @@
 <div class="box">
-    <div class="img">
-        <img [src]="imageSrc" alt="Login Image">
-    </div>
+
     <div class="container">
-        <form>
 
-
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
             <!-- Campo de Nome -->
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" [style.width.px]="500">
                 <mat-label class="mat-label-properties">
                     Nome Completo
                 </mat-label>
-                <input matInput class="mat-input-properties" name="FullName" [formControl]="name"
-                    (blur)="updateNameErrorMessage()" required>
-                @if (name.invalid){
-                <mat-error>
-                    {{nameErrorMessage}}
+
+                <input matInput placeholder="Digite seu nome completo" formControlName="name"
+                    class="mat-input-properties" required>
+
+                <mat-error *ngIf="form.get('nome')?.invalid && (form.get('nome')?.dirty || form.get('nome')?.touched)">
+                    Nome campo obrigatório
                 </mat-error>
-                }
+
                 <mat-icon matSuffix>person</mat-icon>
+
             </mat-form-field>
 
             <!-- Campo de email -->
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" [style.width.px]="500">
                 <mat-label class="mat-label-properties">
                     Entre Com Seu E-mail
                 </mat-label>
-                <input matInput placeholder="exemple@example.com" [formControl]="email" class="mat-input-properties"
-                    name="Email" (blur)="updateEmailErrorMessage()" required>
-                @if (email.invalid){
-                <mat-error>
-                    {{emailErrorMessage}}
+                <input matInput placeholder="exemple@example.com" formControlName="email" class="mat-input-properties"
+                    name="Email" required>
+                <mat-error
+                    *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)">
+                    Email inválido ou campo obrigatório
                 </mat-error>
-                }
                 <mat-icon matSuffix>mail</mat-icon>
             </mat-form-field>
 
@@ -48,6 +46,57 @@
 
             </mat-form-field>
 
+            <!-- Campo De Telefone -->
+            <mat-form-field appearance="outline">
+                <mat-label class="mat-label-properties">
+                    Telefone
+                </mat-label>
+                <input matInput mask="(00) 0000-0000||(00) 0 0000-0000" class="mat-input-properties" name="Cellphone"
+                    formControlName="cellphone" required>
+
+                <mat-error
+                    *ngIf="form.get('cellphone')?.invalid && (form.get('cellphone')?.dirty || form.get('cellphone')?.touched)">
+                    Telefone necessário
+                </mat-error>
+
+                <mat-icon matSuffix>smartphone</mat-icon>
+            </mat-form-field>
+
+
+            <!-- Campo De Documento -->
+            <div>
+
+                <mat-form-field appearance="outline" [style.width.px]="500">
+                    <mat-label class="mat-label-properties">
+                        Documento
+                    </mat-label>
+                    <input matInput mask="000.000.000-00||00.000.000/0000-00" class="mat-input-properties"
+                        name="document" formControlName="document" required>
+                    <mat-error
+                        *ngIf="form.get('document')?.invalid && (form.get('document')?.dirty || form.get('document')?.touched)">
+                        Documento necessário
+                    </mat-error>
+                    <mat-icon matSuffix> <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                            width="24px" fill="#000">
+                            <path
+                                d="M560-440h200v-80H560v80Zm0-120h200v-80H560v80ZM200-320h320v-22q0-45-44-71.5T360-440q-72 0-116 26.5T200-342v22Zm160-160q33 0 56.5-23.5T440-560q0-33-23.5-56.5T360-640q-33 0-56.5 23.5T280-560q0 33 23.5 56.5T360-480ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm0-80h640v-480H160v480Zm0 0v-480 480Z" />
+                        </svg> </mat-icon>
+                </mat-form-field>
+            </div>
+
+            <label class="select-label">Selecione Seu Sexo:</label>
+            <mat-radio-group formControlName="gender" class="select-option-properties">
+                <mat-radio-button value="Male"><label for="">Homem</label></mat-radio-button>
+                <mat-radio-button value="Female"><label for="">Mulher</label></mat-radio-button>
+            </mat-radio-group>
+
+            <button mat-raised-button class="submit-button">Enviar</button>
         </form>
+        <div class="image-container">
+            <img src="assets/furniture-store-animate.svg" alt="Imagem de Login">
+        </div>
     </div>
 </div>
+
+<script
+    type='text/javascript'>document.addEventListener('DOMContentLoaded', function () { window.setTimeout(document.querySelector('svg').classList.add('animated'), 1000); })</script>
