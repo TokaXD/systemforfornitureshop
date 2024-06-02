@@ -9,11 +9,11 @@
                     Nome Completo
                 </mat-label>
 
-                <input matInput placeholder="Digite seu nome completo" formControlName="name"
-                    class="mat-input-properties" required>
+                <input matInput placeholder="Digite seu nome completo" formControlName="FullName"
+                    class="mat-input-properties" maxlength="50" required>
 
-                <mat-error *ngIf="form.get('nome')?.invalid && (form.get('nome')?.dirty || form.get('nome')?.touched)">
-                    Nome campo obrigatório
+                <mat-error *ngIf="form.get('FullName')?.invalid && (form.get('FullName')?.dirty || form.get('FullName')?.touched)">
+                    {{nameErrorMessage}}
                 </mat-error>
 
                 <mat-icon matSuffix>person</mat-icon>
@@ -29,22 +29,12 @@
                     name="Email" required>
                 <mat-error
                     *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)">
-                    Email inválido ou campo obrigatório
+                    {{emailErrorMessage}}
                 </mat-error>
                 <mat-icon matSuffix>mail</mat-icon>
             </mat-form-field>
 
-            <!-- Campo de Senha -->
-            <mat-form-field appearance="outline">
-                <mat-label class="mat-label-properties">
-                    Senha
-                </mat-label>
-                <input matInput class="mat-input-properties" [type]=" hide ? 'password' : 'text' ">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
-                    <mat-icon matSuffix>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
 
-            </mat-form-field>
 
             <!-- Campo De Telefone -->
             <mat-form-field appearance="outline">
@@ -56,7 +46,7 @@
 
                 <mat-error
                     *ngIf="form.get('cellphone')?.invalid && (form.get('cellphone')?.dirty || form.get('cellphone')?.touched)">
-                    Telefone necessário
+                    {{cellphoneErrorMessage}}
                 </mat-error>
 
                 <mat-icon matSuffix>smartphone</mat-icon>
@@ -64,31 +54,50 @@
 
 
             <!-- Campo De Documento -->
-            <div>
+            <mat-form-field appearance="outline">
+                <mat-label class="mat-label-properties">
+                    Documento
+                </mat-label>
+                <input matInput mask="000.000.000-00||00.000.000/0000-00" class="mat-input-properties" name="document"
+                    formControlName="document" required>
+                <mat-error
+                    *ngIf="form.get('document')?.invalid && (form.get('document')?.dirty || form.get('document')?.touched)">
+                    {{documentErrorMessage}}
+                </mat-error>
+                <mat-icon matSuffix> <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                        width="24px" fill="#000">
+                        <path
+                            d="M560-440h200v-80H560v80Zm0-120h200v-80H560v80ZM200-320h320v-22q0-45-44-71.5T360-440q-72 0-116 26.5T200-342v22Zm160-160q33 0 56.5-23.5T440-560q0-33-23.5-56.5T360-640q-33 0-56.5 23.5T280-560q0 33 23.5 56.5T360-480ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm0-80h640v-480H160v480Zm0 0v-480 480Z" />
+                    </svg> </mat-icon>
+            </mat-form-field>
 
-                <mat-form-field appearance="outline" [style.width.px]="500">
-                    <mat-label class="mat-label-properties">
-                        Documento
-                    </mat-label>
-                    <input matInput mask="000.000.000-00||00.000.000/0000-00" class="mat-input-properties"
-                        name="document" formControlName="document" required>
-                    <mat-error
-                        *ngIf="form.get('document')?.invalid && (form.get('document')?.dirty || form.get('document')?.touched)">
-                        Documento necessário
-                    </mat-error>
-                    <mat-icon matSuffix> <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
-                            width="24px" fill="#000">
-                            <path
-                                d="M560-440h200v-80H560v80Zm0-120h200v-80H560v80ZM200-320h320v-22q0-45-44-71.5T360-440q-72 0-116 26.5T200-342v22Zm160-160q33 0 56.5-23.5T440-560q0-33-23.5-56.5T360-640q-33 0-56.5 23.5T280-560q0 33 23.5 56.5T360-480ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm0-80h640v-480H160v480Zm0 0v-480 480Z" />
-                        </svg> </mat-icon>
-                </mat-form-field>
-            </div>
-
+            <!-- Selecione Seu Sexo -->
             <label class="select-label">Selecione Seu Sexo:</label>
-            <mat-radio-group formControlName="gender" class="select-option-properties">
-                <mat-radio-button value="Male"><label for="">Homem</label></mat-radio-button>
-                <mat-radio-button value="Female"><label for="">Mulher</label></mat-radio-button>
+            <mat-radio-group formControlName="sex" class="select-option-properties">
+                <mat-radio-button value="Male"><label class="mat-label-properties">Homem</label></mat-radio-button>
+                <mat-radio-button value="Female"><label class="mat-label-properties">Mulher</label></mat-radio-button>
             </mat-radio-group>
+            <mat-error
+                *ngIf="form.get('sex')?.invalid && (form.get('sex')?.dirty || form.get('sex')?.touched)">
+                {{genderErrorMessage}}
+            </mat-error>
+
+            <!-- Campo de Senha -->
+            <mat-form-field appearance="outline" [style.width.px]="500">
+                <mat-label class="mat-label-properties">
+                    Senha
+                </mat-label>
+                <input matInput class="mat-input-properties" [type]="hide ? 'password' : 'text'"
+                    formControlName="password" required>
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon matSuffix>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
+                <mat-error
+                    *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)">
+                    {{passwordErrorMessage}}
+                </mat-error>
+            </mat-form-field>
+
 
             <button mat-raised-button class="submit-button">Enviar</button>
         </form>
