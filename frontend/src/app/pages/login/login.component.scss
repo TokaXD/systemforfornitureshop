@@ -39,7 +39,7 @@ $color-text: #000;
 
 .mat-input-properties {
     color: $color-text !important;
-    width: 240px !important;
+    width: 100% !important;
     ::placeholder {
         color: $color-text !important;
         opacity: 0.7;
@@ -103,3 +103,7 @@ $color-text: #000;
 }
 
 
+.button-custom{
+    background-color: transparent;
+    border: 0;
+}

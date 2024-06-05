@@ -6,14 +6,18 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { isEmail } from 'validator';
 import * as bcrypt from 'bcrypt'
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
 
-    @InjectRepository(Users_entity)
-    private readonly userRepository: Repository<Users_entity>
+    constructor(
+        @InjectRepository(Users_entity)
+        private readonly userRepository: Repository<Users_entity>,
+        private readonly jwtService: JwtService,
+      ) {}
 
-
+      
     async findAll(page: number = 1, limit: number = 10): Promise<{data: Users_entity[], total: number, pages: number}>{
         const [result, total] = await this.userRepository.findAndCount({
             skip: (page - 1)*limit,
@@ -95,4 +99,28 @@ export class UserService {
     private isValidEmail(email: string): boolean {
         return isEmail(email)
     }
+
+    async loginUser(email: string, pass: string): Promise<{ access_token: string }> {
+        const user = await this.findUserForEmail(email)
+        if(!user){
+            throw new NotFoundException(`User with email ${email} not found`)
+        }
+
+        const isPasswordValid = await bcrypt.compare(pass, user.password);
+        if (!isPasswordValid) {
+            throw new BadRequestException('Invalid credentials');
+          }
+      
+          const payload = { username: user.email, sub: user.id };
+          return {
+            access_token: this.jwtService.sign(payload),
+          };
+    }
+
+    private async findUserForEmail(email: string): Promise<Users_entity> {
+        return this.userRepository.findOneBy({ email });
+    }
+
+
+    
 }
