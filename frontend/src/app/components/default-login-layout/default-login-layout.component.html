@@ -2,16 +2,21 @@
     <section class="form-section">
         <img style="width: 200px; height: 200px" src="/assets/img/Logo_without_background.png" />
         <h2>{{ title }}</h2>
+        <ng-content #name>
+
+        </ng-content>
         <div class="btn-wrapper">
             <button class="offset">{{ primaryBtnText }}</button>
             <div class="divider">
+                <div></div>
                 <span>OR</span>
+                <div></div>
             </div>
             <button class="offset">{{ secondaryBtnText }}</button>
         </div>
     </section>
     <section class="main-section">
         <h1>Welcome to our system! We're thrilled to have you on board.✌️</h1>
-        <img style="width: 90%; height: 90%;" src="/assets/svg/mobile-login-animate.svg" />
+        <img style="width: 90%; height: 90%;" src="{{urlimg}}" />
     </section>
 </main>
