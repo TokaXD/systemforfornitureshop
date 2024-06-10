@@ -3,6 +3,8 @@
     primaryBtnText="Login Now"
     secondaryBtnText="SingUp Now"
     urlimg="/assets/svg/mobile-login-animate.svg"
+    (submit)="submit()"
+    (navigate)="navigate()"
 >
 
     <form [formGroup]="loginForm">
@@ -12,6 +14,7 @@
             type="email"
             label="Email"
             placeHolder="exemple@exemple.com.br"
+            mask=""
         >
             <img style="height: 25px; margin-top: 5px;" src="/assets/icons/Message_white.svg"/>
         </app-primary-input>
@@ -21,6 +24,7 @@
         type="password"
         label="Password"
         placeHolder="Password"
+        mask=""
         >
         <img style="height: 25px; margin-top: 5px;" src="/assets/icons/Padlock_white.svg"/>
         </app-primary-input>

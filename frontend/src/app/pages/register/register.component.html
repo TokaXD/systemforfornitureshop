@@ -1,0 +1,55 @@
+<app-default-login-layout
+title="Create your account now and enjoy our system✌️"
+primaryBtnText="SingUp"
+secondaryBtnText="Go To login"
+urlimg="/assets/svg/furniture-store-animate.svg">
+
+
+    <form [formGroup]="registerForm">
+
+        <app-primary-input
+        formControlName="fullname"
+        inputName="FullName"
+        type="text"
+        label="Full Name"
+        placeHolder="Ex:. My Name"
+        >
+        <img style="height: 25px; margin-top: 5px;" src="/assets/icons/profile-circle.svg"/>
+        </app-primary-input>    
+
+
+        <app-primary-input
+        formControlName="email"
+        inputName="Email"
+        type="email"
+        label="Email"
+        placeHolder="exemple@exemple.com.br"
+        >
+        <img style="height: 25px; margin-top: 5px;" src="/assets/icons/Message_white.svg"/>
+        </app-primary-input>
+        
+        
+        <app-primary-input
+        formControlName="cellphone"
+        inputName="cellphone"
+        type="text"
+        label="Cell Phone"
+        placeHolder="Ex:. (00) 0 0000-0000"
+        mask="(00) 0 0000-0000">
+        <img style="height: 25px; margin-top: 5px;" src="/assets/icons/cell_phone_white.svg"/>
+        </app-primary-input>
+
+
+        <app-primary-input
+        formControlName="password"
+        inputName="Password"
+        type="password"
+        label="Password"
+        placeHolder="Ex:. My Password@123">
+        <img style="height: 25px; margin-top: 5px;" src="/assets/icons/Padlock_white.svg"/>
+        </app-primary-input>
+    
+    </form>
+
+
+</app-default-login-layout>

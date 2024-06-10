@@ -6,13 +6,13 @@
 
         </ng-content>
         <div class="btn-wrapper">
-            <button class="offset">{{ primaryBtnText }}</button>
+            <button class="offset" (click)="submit()">{{ primaryBtnText }}</button>
             <div class="divider">
                 <div></div>
                 <span>OR</span>
                 <div></div>
             </div>
-            <button class="offset">{{ secondaryBtnText }}</button>
+            <button class="offset" (click)="navigate()">{{ secondaryBtnText }}</button>
         </div>
     </section>
     <section class="main-section">
